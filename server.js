@@ -6,6 +6,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = 3000;
+
 var app = express();
 
 app.use(logger("dev"));
@@ -13,20 +14,21 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/globalNews", { useNewUrlParser: true});
+// rewrite this area to connect to heroku later...
+mongoose.connect("mongodb://localhost:27017/financialNews", { useNewUrlParser: true});
 
 app.get("/scrape", (req, res) => {
-  axios.get("https://old.reddit.com/r/worldnews/").then((response) => {
+  axios.get("https://www.reuters.com/finance/markets").then((response) => {
     var $ = cheerio.load(response.data);
     const articleArray= [];
 
-    $("p.title").each(function(i, element) {
+    $("div.story-content").each(function(i, element) {
       var result= {};
 
-      result.title = $(this).text();
-      result.link = $(this).find("a").attr("href");
-      result.source = $(this).find("span.domain").children("a").text();
-
+      result.title = $(this).children().children("h3.story-title").text();
+      result.link = $(this).children("a").attr("href");
+      result.summary = $(this).find("p").text();
+      console.log(response)
       articleArray.push(result);
     });
     console.log(articleArray);
