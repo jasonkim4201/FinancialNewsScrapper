@@ -70,8 +70,8 @@ $(document).ready(function () {
     let commentCardBody = $(`<div class="card-body">`);
     let formTag = $(`<form>`);
     let commentTitle = $(`<h4 class="text-center">`).text("comment section");
-    let inputTitle = $(`<input type="text" class="form-control" id="commentTitle">`);
-    let textarea = $(`<textarea name="note" id="commentSection" class="form-control w-100" rows="5">`);
+    let inputTitle = $(`<input type="text" class="form-control" placeholder="title" id="commentTitle">`);
+    let textarea = $(`<textarea name="note" id="commentSection" placeholder="comment..." class="form-control w-100" rows="5">`);
     let submitBtn = $(`<button class="btn btn-block btn-dark" id="commentBtn">`).text("Submit note");
     let displayCommentDiv = $(`<div class="diaplayCommentZone mt-5">`);
     // append comment area to form tag
@@ -108,20 +108,22 @@ $(document).ready(function () {
           console.log(notes.title);
           console.log(notes.body);
           // okay now to put all this in some fucking box
-          let noteCard = $(`<div class="card" style="width: 18rem;">`);
+          let noteCard = $(`<div class="card">`);
           let noteCardBody = $(`<div class="card-body">`);
           let noteCardTitle = $(`<h5 class="card-title">`).text(notes.title);
           let noteCardNote = $(`<p class="card-text">`).text(notes.body);
-          let deleteNoteBtn = $(`<button class="btn btn-danger" id="${index}">`).text(`Discard note`);
+          /* let deleteNoteBtn = $(`<button class="btn btn-danger" id="${index}">`).text(`Discard note`); */
+          
 
           // APPEND IT ALL
           $(noteCardBody)
             .append(noteCardTitle)
-            .append(noteCardNote)
-            .append(deleteNoteBtn);
+            .append(noteCardNote);
 
           $(noteCard).append(noteCardBody);
+          
           $(".diaplayCommentZone").append(noteCard);
+          location.reload();
         });
       });
   });
