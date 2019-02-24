@@ -12,7 +12,7 @@ $(document).ready(function () {
         method: "GET"
       })
       .then(scrapedArticles => {
-        alert("article scrapped!");
+        alert("Articles scrapped!");
         location.reload();
       });
   });
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
 
           // Create a area to see comments in accordion
-          let commentDivSection = $(`<div id="commentArea">`);
+          let commentDivSection = $(`<div class="commentArea">`);
           $(accordionBody).append(commentDivSection);
 
         });
@@ -60,6 +60,7 @@ $(document).ready(function () {
   // make comment box appear specifically for that accordion body
   $("#newsDiv").on("click", ".article", function () {
     const articleId = $(this).attr("data-id");
+    console.log("DATA ID");
     console.log(articleId);
     // empty comment box if exists
     $("#commentingDiv").empty();
@@ -92,8 +93,12 @@ $(document).ready(function () {
         console.log("ARTICLE DATA:");
         console.log(articleData);
         $("#commentBtn").attr('data-id', articleData._id);
-        // link sumbit button with aritcle data id attr
 
+        // show the comment data in #commentArea
+        console.log(articleData.note);
+        console.log(articleData.note.title);
+        $(".commentArea").empty();
+        $(".commentArea").append(articleData.note.title, articleData.note.body);
       })
   })
 
@@ -135,8 +140,6 @@ $(document).ready(function () {
 
 
   });
-
-  // Once comments are in database they will be posted into the accordion where the comment div is 
 
   viewNews();
 });

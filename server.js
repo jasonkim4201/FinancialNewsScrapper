@@ -53,9 +53,21 @@ app.get("/articles", (req, res) => {
     });
 });
 
-// get aritcles by id!
+// route for getting all notes in article area
+app.get("/populated", (req, res) => {
+  db.Article.find({})
+    .populate("note")
+    .then((dbArticle) => {
+      res.json(dbArticle);
+    })
+    .catch((error) => {
+      res.json(error);
+    });
+});
+
+// get aritcles by id! and populating with note!
 app.get("/articles/:id", (req, res) => {
-  db.Article.findOne({_id: req.params.id })
+  db.Article.findOne({_id: req.params.id }) 
   .populate("note")
   .then((dbArticle) => {
     res.json(dbArticle);
@@ -65,11 +77,13 @@ app.get("/articles/:id", (req, res) => {
   });
 });
 
+
+
 // route to saving a note for article
 app.post("/articles/:id", (req, res) => {
   db.Note.create(req.body)
     .then((dbNote) => {
-      return db.Article.findOneAndUpdate({ _id: req.params.id}, {note: dbNote._id }, {new: true});
+      return db.Article.findOneAndUpdate({ _id: req.params.id}, { $push: {note: dbNote._id }}, {new: true});
     })
     .then((dbArticle) => {
       res.json(dbArticle);
