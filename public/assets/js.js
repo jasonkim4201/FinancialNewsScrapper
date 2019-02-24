@@ -49,8 +49,8 @@ $(document).ready(function () {
 
 
           // Create a area to see comments in accordion
-          let commentDivSection = $(`<div class="commentArea">`);
-          $(accordionBody).append(commentDivSection);
+          /* let commentDivSection = $(`<div class="commentArea">`);
+          $(accordionBody).append(commentDivSection); */
 
         });
       });
@@ -73,7 +73,7 @@ $(document).ready(function () {
     let inputTitle = $(`<input type="text" class="form-control" id="commentTitle">`);
     let textarea = $(`<textarea name="note" id="commentSection" class="form-control w-100" rows="5">`);
     let submitBtn = $(`<button class="btn btn-block btn-dark" id="commentBtn">`).text("Submit note");
-
+    let displayCommentDiv = $(`<div class="diaplayCommentZone mt-5">`);
     // append comment area to form tag
     $(formTag)
       .append(commentTitle)
@@ -84,6 +84,8 @@ $(document).ready(function () {
     $(commentCardBody).append(formTag);
     $(commentCard).append(commentCardBody);
     $("#commentingDiv").append(commentCard);
+    $("#commentingDiv").append(displayCommentDiv);
+
     // use article id in ajax call
     $.ajax({
         url: `/articles/${articleId}`,
@@ -95,12 +97,34 @@ $(document).ready(function () {
         $("#commentBtn").attr('data-id', articleData._id);
 
         // show the comment data in #commentArea
+        console.log("ARRAY OF NOTES???")
         console.log(articleData.note);
-        console.log(articleData.note.title);
+       
         $(".commentArea").empty();
-        $(".commentArea").append(articleData.note.title, articleData.note.body);
-      })
-  })
+
+        // omg i figured it out?!? see i'm not a complete dumpster fire!
+        // actually no let's not get too far ahead of myself
+        articleData.note.forEach((notes, index) => {
+          console.log(notes.title);
+          console.log(notes.body);
+          // okay now to put all this in some fucking box
+          let noteCard = $(`<div class="card" style="width: 18rem;">`);
+          let noteCardBody = $(`<div class="card-body">`);
+          let noteCardTitle = $(`<h5 class="card-title">`).text(notes.title);
+          let noteCardNote = $(`<p class="card-text">`).text(notes.body);
+          let deleteNoteBtn = $(`<button class="btn btn-danger" id="${index}">`).text(`Discard note`);
+
+          // APPEND IT ALL
+          $(noteCardBody)
+            .append(noteCardTitle)
+            .append(noteCardNote)
+            .append(deleteNoteBtn);
+
+          $(noteCard).append(noteCardBody);
+          $(".diaplayCommentZone").append(noteCard);
+        });
+      });
+  });
 
 
   // submit comments
