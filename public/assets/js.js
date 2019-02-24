@@ -48,10 +48,6 @@ $(document).ready(function () {
           $(`#newsDiv`).append(accordionLinkedThingy);
 
 
-          // Create a area to see comments in accordion
-          /* let commentDivSection = $(`<div class="commentArea">`);
-          $(accordionBody).append(commentDivSection); */
-
         });
       });
   }
@@ -123,7 +119,7 @@ $(document).ready(function () {
           $(noteCard).append(noteCardBody);
           
           $(".diaplayCommentZone").append(noteCard);
-          location.reload();
+          
         });
       });
   });
@@ -162,8 +158,35 @@ $(document).ready(function () {
           console.log(comments);
           $("#commentTitle").val("");
           $("#commentSection").val("");
-        })
+        });
 
+       // use article id in ajax call
+    $.ajax({
+      url: `/articles/${articleId}`,
+      method: "GET"
+    })
+    .then(articleData => {
+      $(".diaplayCommentZone ").empty();
+      $("#commentBtn").attr('data-id', articleData._id);
+      $(".commentArea").empty();
+
+      articleData.note.forEach((notes, index) => {
+
+        let noteCard = $(`<div class="card">`);
+        let noteCardBody = $(`<div class="card-body">`);
+        let noteCardTitle = $(`<h5 class="card-title">`).text(notes.title);
+        let noteCardNote = $(`<p class="card-text">`).text(notes.body);
+
+        $(noteCardBody)
+          .append(noteCardTitle)
+          .append(noteCardNote);
+
+        $(noteCard).append(noteCardBody);
+        
+        $(".diaplayCommentZone").append(noteCard);
+        
+      });
+    });
 
   });
 
