@@ -66,7 +66,7 @@ app.get("/articles/:id", (req, res) => {
 });
 
 // route to saving a note for article
-app.post("/article/:id", (req, res) => {
+app.post("/articles/:id", (req, res) => {
   db.Note.create(req.body)
     .then((dbNote) => {
       return db.Article.findOneAndUpdate({ _id: req.params.id}, {note: dbNote._id }, {new: true});
