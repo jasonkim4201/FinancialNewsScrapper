@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static("public"));
 
-
+// .
 mongoose.connect(MONGODB_URI);
 
 mongoose.connection.on("error", function(error) {
