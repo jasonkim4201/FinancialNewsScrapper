@@ -15,14 +15,20 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static("public"));
 
-// rewrite this area to connect to heroku later...
-// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/financialNews";
+
 if (process.env.MONGODB_URI) {
   mongoose.connect(MONGODB_URI);
 } else {
   mongoose.connect("mongodb://localhost:27017/financialNews", { useNewUrlParser: true});
 }
 
+mongoose.connection.on("error", function(error) {
+  console.log("Mongoose error: ", error);
+});
+
+mongoose.connection.once("open", function() {
+  console.log("Mongoose connection sucessful.");
+});
 
 app.get("/scrape", (req, res) => {
   axios.get("https://www.reuters.com/finance/markets").then((response) => {
