@@ -173,7 +173,7 @@ $(document).ready(function () {
       articleData.note.forEach((notes, index) => {
 
         let noteCard = $(`<div class="card">`);
-        let noteCardBody = $(`<div class="card-body">`);
+        let noteCardBody = $(`<div class="card">`);
         let noteCardTitle = $(`<h5 class="card-title">`).text(notes.title);
         let noteCardNote = $(`<p class="card-text">`).text(notes.body);
 

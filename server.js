@@ -6,6 +6,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = 3000;
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/financialNews";
 
 var app = express();
 
@@ -15,7 +16,13 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // rewrite this area to connect to heroku later...
-mongoose.connect("mongodb://localhost:27017/financialNews", { useNewUrlParser: true});
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/financialNews";
+if (process.env.MONGODB_URI) {
+  mongoose.connect(MONGODB_URI);
+} else {
+  mongoose.connect("mongodb://localhost:27017/financialNews", { useNewUrlParser: true});
+}
+
 
 app.get("/scrape", (req, res) => {
   axios.get("https://www.reuters.com/finance/markets").then((response) => {
