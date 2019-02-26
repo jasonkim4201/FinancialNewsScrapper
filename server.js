@@ -21,7 +21,7 @@ if (process.env.MONGODB_URI) {
 } else {
   mongoose.connect("mongodb://localhost:27017/FinancialNewsScrapper", { useNewUrlParser: true});
 }
-
+// .
 mongoose.connection.on("error", function(error) {
   console.log("Mongoose error: ", error);
 });
