@@ -19,7 +19,7 @@ app.use(express.static("public"));
 if (process.env.MONGODB_URI) {
   mongoose.connect(MONGODB_URI);
 } else {
-  mongoose.connect("mongodb://localhost:27017/financialNews", { useNewUrlParser: true});
+  mongoose.connect("mongodb://localhost:27017/FinancialNewsScrapper", { useNewUrlParser: true});
 }
 
 mongoose.connection.on("error", function(error) {
