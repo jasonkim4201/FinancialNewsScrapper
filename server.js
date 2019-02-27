@@ -6,7 +6,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = 3000;
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/financialNews";
+var MONGODB_URI = process.env.MONGOLAB_MAROON_URI || "mongodb://localhost:27017/financialNews";
 
 var app = express();
 
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // .
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 
 mongoose.connection.on("error", function(error) {
   console.log("Mongoose error: ", error);
