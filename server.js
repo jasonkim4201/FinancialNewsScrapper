@@ -6,8 +6,13 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 var PORT = 3000;
-var MONGODB_URI = process.env.MONGOLAB_MAROON_URI || "mongodb://localhost:27017/financialNews";
+var MONGODB_URI;
+if(process.env.MONGOLAB_MAROON_URI){
+  MONGODB_URI  = process.env.MONGOLAB_MAROON_URI;
 
+}else{
+  MONGODB_URI  = "mongodb://localhost:27017/financialNews"
+}
 var app = express();
 
 app.use(logger("dev"));
@@ -18,13 +23,7 @@ app.use(express.static("public"));
 // .
 mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 
-mongoose.connection.on("error", function(error) {
-  console.log("Mongoose error: ", error);
-});
-
-mongoose.connection.once("open", function() {
-  console.log("Mongoose connection sucessful.");
-});
+mongoose.connection;
 
 app.get("/scrape", (req, res) => {
   axios.get("https://www.reuters.com/finance/markets").then((response) => {
